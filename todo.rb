@@ -1,16 +1,62 @@
-# let create an empty array to store tasks: 
+# Initialize an empty array to store tasks
 tasks = []
-# let's create a function to add a task 
-def add_Task(tasks, name)
-tasks << name
-end 
-# let's ask the user to give an imput 
-puts "Give me your to do task"
-task_name = gets.chomp
-# let add the task giving by the user 
-add_Task(tasks, task_name)
-# let display the added task
-puts "This is your task: "
-tasks.each_with_index do |task, index|
-    puts "#{index+1}. #{task}"
+
+# Define a method to display the list of tasks
+def list_tasks(tasks)
+  puts "To-Do List:"
+  tasks.each_with_index do |task, index|
+    status = task[:done] ? "[X]" : "[ ]"
+    puts "#{index + 1}. #{status} #{task[:name]}"
+  end
+end
+
+# Define a method to add a task
+def add_task(tasks, name)
+  tasks << { name: name, done: false }
+end
+
+# Define a method to mark a task as completed
+def complete_task(tasks, index)
+  tasks[index][:done] = true
+end
+
+# Define a method to delete a task
+def delete_task(tasks, index)
+  tasks.delete_at(index)
+end
+
+# Main application loop
+loop do
+  puts "\nOptions:"
+  puts "1. Add Task"
+  puts "2. List Tasks"
+  puts "3. Mark Task as Completed"
+  puts "4. Delete Task"
+  puts "5. Exit"
+  print "Select an option: "
+
+  choice = gets.chomp.to_i
+
+  case choice
+  when 1
+    print "Enter task name: "
+    task_name = gets.chomp
+    add_task(tasks, task_name)
+  when 2
+    list_tasks(tasks)
+  when 3
+    list_tasks(tasks)
+    print "Enter the task number to mark as completed: "
+    task_index = gets.chomp.to_i - 1
+    complete_task(tasks, task_index) if task_index >= 0 && task_index < tasks.length
+  when 4
+    list_tasks(tasks)
+    print "Enter the task number to delete: "
+    task_index = gets.chomp.to_i - 1
+    delete_task(tasks, task_index) if task_index >= 0 && task_index < tasks.length
+  when 5
+    break
+  else
+    puts "Invalid option. Please try again."
+  end
 end
