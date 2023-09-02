@@ -9,4 +9,8 @@ puts "Give me your to do task"
 task_name = gets.chomp
 # let add the task giving by the user 
 add_Task(tasks, task_name)
-# let display the task
+# let display the added task
+puts "This is your task: "
+tasks.each_with_index do |task, index|
+    puts "#{index+1}. #{task}"
+end
